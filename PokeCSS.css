@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #A8A77A;
+}
+
+h1 {
+    text-align: center;
+    background-color: #3B4CCA;
+}
+
+.pokemon-list-item {
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ffd733;
+    border-radius: 5px;
+}
+
+.pokemon-list-item:hover {
+    background-color: #714baf;
+}
+
+.pokemon-card {
+    border: 1px solid #ffffff;
+    padding: 10px;
+    margin: 10px;
+    width: 400px;
+    display: inline-block;
+    border-radius: 5px;
+    background-color: #ff1111
+    ;
+}
+
+.pokemon-card img {
+    max-width: 500%;
+    border-radius: 10px;
+}
+
+.pokemon-card h2 {
+    margin-top: 0;
+}
+
+.pokemon-detail-container {
+    margin-top: 20px;
+}
+/*All colors used for this API are Gen 1 Pokemon colors, Red,Yellow and Blue. For the background it is the hex code color of a normal type pokemon*/

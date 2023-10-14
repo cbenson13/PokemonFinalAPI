@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" type="text/css" href="PokeCSS.css">
+<head>
+    <title>Pokemon Viewer</title>
+    <style>
+        .pokemon-list-item {
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .pokemon-card {
+            border: 10px solid #000000;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            display: inline-block;
+        }
+        .pokemon-card img {
+            max-width: 600%;
+        }
+        .pokemon-card h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pokemon Viewer</h1>
+    <div id="pokemon-list"></div>
+    <div id="pokemon-detail"></div>
+
+    <script>
+        // Fetching the list of generation 1 Pokemon from the API
+        fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+            .then(response => response.json())
+            .then(data => {
+                const pokemonList = data.results;
+                const pokemonListContainer = document.getElementById('pokemon-list');
+
+                // Displaying the list of Pokemon names with click 
+                pokemonList.forEach(pokemon => {
+                    const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+                    const pokemonListItem = document.createElement('div');
+                    pokemonListItem.classList.add('pokemon-list-item');
+                    pokemonListItem.textContent = pokemonName;
+                    pokemonListItem.addEventListener('click', () => {
+                        // Fetching detailed data for the selected Pokemon
+                        fetch(pokemon.url)
+                            .then(response => response.json())
+                            .then(pokemonData => {
+                                // Creating a detailed card/view for the selected Pokemon
+                                const pokemonDetailContainer = document.getElementById('pokemon-detail');
+                                pokemonDetailContainer.innerHTML = '';
+
+                                const pokemonCard = document.createElement('div');
+                                pokemonCard.classList.add('pokemon-card');
+
+                                const pokemonName = document.createElement('h2');
+                                pokemonName.textContent = pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1);
+
+                                const pokemonSprite = document.createElement('img');
+                                pokemonSprite.src = pokemonData.sprites.front_default;
+
+                                const pokemonTypes = document.createElement('p');
+                                pokemonTypes.textContent = 'Types: ' + pokemonData.types.map(type => type.type.name).join(', ');
+
+                                const pokemonId = document.createElement('p');
+                                pokemonId.textContent = 'Pokedex Number: ' + pokemonData.id;
+
+                                pokemonCard.appendChild(pokemonName);
+                                pokemonCard.appendChild(pokemonSprite);
+                                pokemonCard.appendChild(pokemonTypes);
+                                pokemonCard.appendChild(pokemonId);
+
+                                pokemonDetailContainer.appendChild(pokemonCard);
+                            })
+                            .catch(error => {
+                                console.log('Error fetching Pokemon data:', error);
+                            });
+                    });
+                    pokemonListContainer.appendChild(pokemonListItem);
+                });
+            })
+            .catch(error => {
+                console.log('Error fetching Pokemon list:', error);
+            });
+    </script>
+</body>
+</html>
